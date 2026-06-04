@@ -29,7 +29,7 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${heming.variable} font-sans h-full antialiased`}
     >
-      <body className="min-h-full flex bg-app-bg text-text-main font-light transition-colors duration-300">
+      <body suppressHydrationWarning className="min-h-full flex bg-app-bg text-text-main font-light transition-colors duration-300">
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <AuthProvider>
             <Sidebar />

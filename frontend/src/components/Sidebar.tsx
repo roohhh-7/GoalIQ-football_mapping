@@ -1,4 +1,5 @@
 "use client";
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
@@ -10,6 +11,11 @@ export default function Sidebar() {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const { isLoggedIn, login, logout } = useAuth();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const navItems = [
     { name: 'Home', href: '/', icon: Home },
@@ -54,9 +60,9 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`relative flex items-center px-4 py-3 text-[14px] font-medium transition-colors rounded-r-xl ${
+              className={`relative flex items-center px-4 py-3 text-[14px] font-medium transition-colors rounded-xl ${
                 isActive 
-                  ? 'text-[#3B7E41]' 
+                  ? 'text-brand' 
                   : 'text-text-sec hover:bg-surface-hover hover:text-text-main'
               }`}
             >
@@ -64,19 +70,19 @@ export default function Sidebar() {
                 <>
                   <motion.div
                     layoutId="sidebarActiveBg"
-                    className="absolute inset-0 bg-[#F0F5F1] rounded-r-xl"
+                    className="absolute inset-0 bg-brand-soft rounded-xl"
                     initial={false}
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                   <motion.div
                     layoutId="sidebarActiveBorder"
-                    className="absolute left-0 top-2 bottom-2 w-[4px] bg-[#3B7E41] rounded-r-md"
+                    className="absolute left-0 top-2 bottom-2 w-[4px] bg-brand rounded-full"
                     initial={false}
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 </>
               )}
-              <item.icon className={`relative z-10 w-5 h-5 mr-3 ${isActive ? 'text-[#3B7E41]' : 'text-text-muted group-hover:text-text-sec'}`} />
+              <item.icon className={`relative z-10 w-5 h-5 mr-3 ${isActive ? 'text-brand' : 'text-text-muted group-hover:text-text-sec'}`} />
               <span className="relative z-10">{item.name}</span>
             </Link>
           );
@@ -88,12 +94,12 @@ export default function Sidebar() {
           onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
           className="flex items-center w-full px-4 py-3 rounded-lg text-sm font-medium text-text-sec hover:bg-surface-hover transition-colors"
         >
-          {theme === 'dark' ? (
+          {mounted && theme === 'dark' ? (
             <Sun className="w-5 h-5 mr-3 text-text-muted" />
           ) : (
             <Moon className="w-5 h-5 mr-3 text-text-muted" />
           )}
-          {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+          {mounted && theme === 'dark' ? 'Light mode' : 'Dark mode'}
         </button>
         {isLoggedIn ? (
           <button onClick={logout} className="flex items-center justify-between w-full px-4 py-3 rounded-lg text-sm font-medium text-text-main hover:bg-surface-hover transition-colors mt-2">

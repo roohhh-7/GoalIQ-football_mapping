@@ -211,7 +211,7 @@ export default function Home() {
           {/* Right Column: Hero Image */}
           <div className="relative flex justify-center lg:justify-end cursor-default">
             <Image 
-              src="/hero_image.png" 
+              src="/hero_transparent.png" 
               alt="3D Pitch Visualization" 
               width={800} 
               height={600} 
