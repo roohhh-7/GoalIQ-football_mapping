@@ -19,7 +19,7 @@ function SearchableSelect({ options, value, onChange, placeholder }: any) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const filteredOptions = options.filter(opt => 
+  const filteredOptions = options.filter((opt: string) => 
     opt.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
