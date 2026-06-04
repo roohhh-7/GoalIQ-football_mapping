@@ -56,7 +56,7 @@ function SearchableSelect({ options, value, onChange, placeholder }: any) {
             {filteredOptions.length === 0 ? (
               <div className="p-4 text-text-muted text-center text-sm">No results found</div>
             ) : (
-              filteredOptions.map(opt => (
+              filteredOptions.map((opt: string) => (
                 <div 
                   key={opt}
                   className="px-4 py-3 hover:bg-surface-hover cursor-pointer text-text-sec text-sm font-medium transition-colors"
