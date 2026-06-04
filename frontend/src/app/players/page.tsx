@@ -7,7 +7,7 @@ import Pitch from '@/components/Pitch';
 function SearchableSelect({ options, value, onChange, placeholder }: any) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const wrapperRef = useRef(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: any) {
