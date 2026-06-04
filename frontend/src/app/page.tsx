@@ -1,5 +1,8 @@
 "use client";
 
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Target, Users, Calendar, Trophy, Lock, Search, ArrowRight, Activity, Map, User, Globe } from 'lucide-react';
@@ -7,10 +10,71 @@ import { useAuth } from '@/contexts/AuthContext';
 
 export default function Home() {
   const { isLoggedIn, login } = useAuth();
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [teamsList, setTeamsList] = useState<string[]>([]);
+  const [playersList, setPlayersList] = useState<string[]>([]);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const searchRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetch('/shots.json')
+        .then(res => res.json())
+        .then((data: any[]) => {
+          const uniqueTeams = Array.from(new Set(data.map(s => s.team)));
+          const uniquePlayers = Array.from(new Set(data.map(s => s.player)));
+          setTeamsList(uniqueTeams as string[]);
+          setPlayersList(uniquePlayers as string[]);
+        })
+        .catch(console.error);
+    }
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (searchRef.current && !searchRef.current.contains(event.target as Node)) {
+        setIsSearchFocused(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const allSuggestions = [...teamsList, ...playersList];
+  const filteredSuggestions = searchQuery.trim() 
+    ? allSuggestions.filter(s => s.toLowerCase().includes(searchQuery.toLowerCase())).slice(0, 8) 
+    : [];
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setSearchQuery(suggestion);
+    setIsSearchFocused(false);
+    
+    const isTeam = teamsList.some(t => t.toLowerCase() === suggestion.toLowerCase());
+    if (isTeam) {
+      router.push(`/teams?q=${encodeURIComponent(suggestion)}`);
+    } else {
+      router.push(`/players?q=${encodeURIComponent(suggestion)}`);
+    }
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!searchQuery.trim()) return;
+    
+    const query = searchQuery.trim().toLowerCase();
+    const isTeam = teamsList.some(t => t.toLowerCase().includes(query));
+    
+    if (isTeam) {
+      router.push(`/teams?q=${encodeURIComponent(searchQuery)}`);
+    } else {
+      router.push(`/players?q=${encodeURIComponent(searchQuery)}`);
+    }
+  };
 
   const renderStatsCard = () => (
     <div className="w-full max-w-6xl mx-auto">
-      <div className="bg-white border border-[#F2F4F7] rounded-2xl p-6 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.03)] mb-4">
+      <div className="bg-surface border border-border-subtle rounded-2xl p-6 shadow-sm mb-4">
         <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border-subtle">
           <div className="flex items-center justify-center gap-5 px-4">
             <Target className="w-7 h-7 text-brand" strokeWidth={2} />
@@ -84,7 +148,7 @@ export default function Home() {
             </div>
 
             {!isLoggedIn ? (
-              <div className="bg-[#F8F9F7] dark:bg-surface-hover border border-border-subtle rounded-xl p-8 flex flex-col items-center text-center max-w-md">
+              <div className="bg-surface-hover border border-border-subtle rounded-xl p-8 flex flex-col items-center text-center max-w-md">
                 <div className="w-10 h-10 rounded-full border border-border-subtle bg-surface flex items-center justify-center mb-4">
                   <Lock className="w-4 h-4 text-text-muted" strokeWidth={2} />
                 </div>
@@ -94,21 +158,53 @@ export default function Home() {
                 </p>
               </div>
             ) : (
-              <div className="relative max-w-md">
-                <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
-                  <Search className="h-5 w-5 text-gray-500" strokeWidth={1.5} />
+              <form ref={searchRef} onSubmit={handleSearch} className="relative max-w-md">
+                <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none z-10">
+                  <Search className="h-5 w-5 text-text-muted" strokeWidth={1.5} />
                 </div>
                 <input
                   type="text"
-                  placeholder="Search player, team or tournament..."
-                  className="w-full pl-14 pr-14 py-3.5 bg-white border border-gray-100 rounded-[14px] text-[14px] font-normal text-gray-800 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5FAE63] focus:border-transparent shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onFocus={() => setIsSearchFocused(true)}
+                  placeholder="Search player or team..."
+                  className="w-full pl-14 pr-14 py-3.5 bg-surface border border-border-subtle rounded-[14px] text-[14px] font-normal text-text-main placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent shadow-sm relative z-0"
                 />
-                <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                  <div className="bg-[#F8F9FA] border border-gray-200 rounded-lg text-gray-600 text-[13px] font-normal px-2.5 py-0.5">
-                    /
+                <button type="submit" className="absolute inset-y-0 right-4 flex items-center z-10">
+                  <div className="bg-surface-hover border border-border-hover rounded-lg text-text-sec text-[13px] font-normal px-2.5 py-0.5 hover:bg-surface transition-colors cursor-pointer">
+                    ↵
                   </div>
-                </div>
-              </div>
+                </button>
+                
+                <AnimatePresence>
+                  {isSearchFocused && searchQuery.trim() && (
+                    <motion.div 
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute z-50 mt-2 w-full bg-surface border border-border-subtle rounded-xl shadow-xl max-h-64 overflow-y-auto overflow-hidden"
+                    >
+                      {filteredSuggestions.length === 0 ? (
+                        <div className="p-4 text-text-muted text-center text-sm">No matches found</div>
+                      ) : (
+                        filteredSuggestions.map((suggestion) => {
+                          const isTeam = teamsList.includes(suggestion);
+                          return (
+                            <div 
+                              key={suggestion}
+                              className="px-4 py-3 flex items-center gap-3 hover:bg-surface-hover text-text-main cursor-pointer transition-colors"
+                              onClick={() => handleSuggestionClick(suggestion)}
+                            >
+                              {isTeam ? <Users className="w-4 h-4 text-brand" /> : <User className="w-4 h-4 text-brand" />}
+                              <span className="text-[14px] font-medium">{suggestion}</span>
+                            </div>
+                          );
+                        })
+                      )}
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </form>
             )}
           </div>
 
@@ -128,13 +224,13 @@ export default function Home() {
         {isLoggedIn && (
           <div className="w-full space-y-6 mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700">
             {/* Featured Tournament */}
-            <div className="bg-white border border-[#F2F4F7] rounded-2xl p-6 shadow-[0_4px_24px_-4px_rgba(0,0,0,0.03)] flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="bg-surface border border-border-subtle rounded-2xl p-6 shadow-sm flex flex-col lg:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-5">
-                <div className="w-[72px] h-[72px] bg-[#F5F7F5] dark:bg-surface-hover rounded-xl flex items-center justify-center p-2 border border-border-subtle">
+                <div className="w-[72px] h-[72px] bg-surface-hover rounded-xl flex items-center justify-center p-2 border border-border-subtle">
                   <Image src="/trophy.png" alt="Trophy" width={44} height={44} className="object-contain" />
                 </div>
                 <div>
-                  <div className="text-[10px] font-semibold tracking-widest text-[#5FAE63] uppercase mb-1">Featured Tournament</div>
+                  <div className="text-[10px] font-semibold tracking-widest text-brand uppercase mb-1">Featured Tournament</div>
                   <div className="text-xl font-semibold text-text-main">World Cup 2022</div>
                   <div className="text-[13px] text-text-sec font-normal mt-0.5">Qatar</div>
                 </div>
@@ -142,21 +238,21 @@ export default function Home() {
               
               <div className="flex items-center justify-center gap-10 md:gap-16 flex-1 lg:border-x border-border-subtle lg:px-12 py-2 w-full lg:w-auto">
                 <div className="flex items-center gap-4">
-                  <Target className="w-6 h-6 text-[#5FAE63]" strokeWidth={2} />
+                  <Target className="w-6 h-6 text-brand" strokeWidth={2} />
                   <div>
                     <div className="text-[22px] font-semibold text-text-main leading-tight">64</div>
                     <div className="text-[11px] font-normal text-text-sec mt-0.5">Matches</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Activity className="w-6 h-6 text-[#5FAE63]" strokeWidth={2} />
+                  <Activity className="w-6 h-6 text-brand" strokeWidth={2} />
                   <div>
                     <div className="text-[22px] font-semibold text-text-main leading-tight">172</div>
                     <div className="text-[11px] font-normal text-text-sec mt-0.5">Goals</div>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Target className="w-6 h-6 text-[#5FAE63]" strokeWidth={2} />
+                  <Target className="w-6 h-6 text-brand" strokeWidth={2} />
                   <div>
                     <div className="text-[22px] font-semibold text-text-main leading-tight">4,421</div>
                     <div className="text-[11px] font-normal text-text-sec mt-0.5">Shots</div>
@@ -164,24 +260,24 @@ export default function Home() {
                 </div>
               </div>
               
-              <button className="flex justify-center items-center gap-2 bg-[#5FAE63] hover:bg-[#4E9A54] text-white px-7 py-3.5 rounded-xl font-semibold text-[14px] transition-colors shadow-sm border border-[#4E9A54] w-full lg:w-auto">
+              <Link href="/heatmap?year=2022" className="flex justify-center items-center gap-2 bg-brand hover:bg-brand-hover text-white px-7 py-3.5 rounded-xl font-semibold text-[14px] transition-colors shadow-sm border border-brand w-full lg:w-auto">
                 Explore
                 <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
-              </button>
+              </Link>
             </div>
 
             {/* Grid of Features */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Player Intelligence */}
-              <Link href="/players" className="bg-white border border-[#F2F4F7] rounded-[20px] shadow-[0_4px_24px_-4px_rgba(0,0,0,0.03)] flex flex-col group cursor-pointer hover:shadow-[0_12px_30px_-4px_rgba(78,154,84,0.15)] transition-all duration-300 relative overflow-hidden">
+              <Link href="/players" className="bg-surface border border-border-subtle rounded-[20px] shadow-sm flex flex-col group cursor-pointer hover:shadow-[0_12px_30px_-4px_rgba(78,154,84,0.15)] transition-all duration-300 relative overflow-hidden">
                 <div className="p-6 pb-6 flex-1 relative">
-                  <div className="w-10 h-10 rounded-full bg-[#F0F5F1] flex items-center justify-center mb-6">
-                    <User className="w-5 h-5 text-[#4E9A54]" strokeWidth={2} />
+                  <div className="w-10 h-10 rounded-full bg-brand-soft flex items-center justify-center mb-6">
+                    <User className="w-5 h-5 text-brand" strokeWidth={2} />
                   </div>
                   
                   <div className="relative z-10 pr-[110px]">
-                    <h3 className="text-[17px] font-semibold text-gray-900 leading-tight mb-3">Player<br />Intelligence</h3>
-                    <p className="text-[12px] text-gray-500 leading-relaxed font-normal">
+                    <h3 className="text-[17px] font-semibold text-text-main leading-tight mb-3">Player<br />Intelligence</h3>
+                    <p className="text-[12px] text-text-sec leading-relaxed font-normal">
                       Analyze individual performance with shot maps, xG, finishing trends and more.
                     </p>
                   </div>
@@ -190,22 +286,22 @@ export default function Home() {
                     <Image src="/player.png" alt="Player Maps" fill className="object-contain transform group-hover:scale-105 transition-transform duration-500" />
                   </div>
                 </div>
-                <div className="px-6 py-4 border-t border-[#F2F4F7] flex items-center justify-between text-[#4E9A54] font-semibold text-[13px] bg-white">
+                <div className="px-6 py-4 border-t border-border-subtle flex items-center justify-between text-brand font-semibold text-[13px] bg-surface group-hover:bg-surface-hover transition-colors">
                   Explore Players
                   <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
 
               {/* Team Intelligence */}
-              <Link href="/teams" className="bg-white border border-[#F2F4F7] rounded-[20px] shadow-[0_4px_24px_-4px_rgba(0,0,0,0.03)] flex flex-col group cursor-pointer hover:shadow-[0_12px_30px_-4px_rgba(78,154,84,0.15)] transition-all duration-300 relative overflow-hidden">
+              <Link href="/teams" className="bg-surface border border-border-subtle rounded-[20px] shadow-sm flex flex-col group cursor-pointer hover:shadow-[0_12px_30px_-4px_rgba(78,154,84,0.15)] transition-all duration-300 relative overflow-hidden">
                 <div className="p-6 pb-6 flex-1 relative">
-                  <div className="w-10 h-10 rounded-full bg-[#F0F5F1] flex items-center justify-center mb-6">
-                    <Users className="w-5 h-5 text-[#4E9A54]" strokeWidth={2} />
+                  <div className="w-10 h-10 rounded-full bg-brand-soft flex items-center justify-center mb-6">
+                    <Users className="w-5 h-5 text-brand" strokeWidth={2} />
                   </div>
                   
                   <div className="relative z-10 pr-[110px]">
-                    <h3 className="text-[17px] font-semibold text-gray-900 leading-tight mb-3">Team<br />Intelligence</h3>
-                    <p className="text-[12px] text-gray-500 leading-relaxed font-normal">
+                    <h3 className="text-[17px] font-semibold text-text-main leading-tight mb-3">Team<br />Intelligence</h3>
+                    <p className="text-[12px] text-text-sec leading-relaxed font-normal">
                       Dive into team shot maps, tactical patterns, xG performance and strategies.
                     </p>
                   </div>
@@ -214,22 +310,22 @@ export default function Home() {
                     <Image src="/team.png" alt="Team Maps" fill className="object-contain transform group-hover:scale-105 transition-transform duration-500" />
                   </div>
                 </div>
-                <div className="px-6 py-4 border-t border-[#F2F4F7] flex items-center justify-between text-[#4E9A54] font-semibold text-[13px] bg-white">
+                <div className="px-6 py-4 border-t border-border-subtle flex items-center justify-between text-brand font-semibold text-[13px] bg-surface group-hover:bg-surface-hover transition-colors">
                   Explore Teams
                   <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                 </div>
               </Link>
 
               {/* Global Heatmap */}
-              <Link href="/heatmap" className="bg-white border border-[#F2F4F7] rounded-[20px] shadow-[0_4px_24px_-4px_rgba(0,0,0,0.03)] flex flex-col group cursor-pointer hover:shadow-[0_12px_30px_-4px_rgba(78,154,84,0.15)] transition-all duration-300 relative overflow-hidden">
+              <Link href="/heatmap" className="bg-surface border border-border-subtle rounded-[20px] shadow-sm flex flex-col group cursor-pointer hover:shadow-[0_12px_30px_-4px_rgba(78,154,84,0.15)] transition-all duration-300 relative overflow-hidden">
                 <div className="p-6 pb-6 flex-1 relative">
-                  <div className="w-10 h-10 rounded-full bg-[#F0F5F1] flex items-center justify-center mb-6">
-                    <Globe className="w-5 h-5 text-[#4E9A54]" strokeWidth={2} />
+                  <div className="w-10 h-10 rounded-full bg-brand-soft flex items-center justify-center mb-6">
+                    <Globe className="w-5 h-5 text-brand" strokeWidth={2} />
                   </div>
                   
                   <div className="relative z-10 pr-[120px]">
-                    <h3 className="text-[17px] font-semibold text-gray-900 leading-tight mb-3">Global<br />Heatmap</h3>
-                    <p className="text-[12px] text-gray-500 leading-relaxed font-normal">
+                    <h3 className="text-[17px] font-semibold text-text-main leading-tight mb-3">Global<br />Heatmap</h3>
+                    <p className="text-[12px] text-text-sec leading-relaxed font-normal">
                       Explore every shot from every match. Visualize the World Cup like never before.
                     </p>
                   </div>
@@ -238,7 +334,7 @@ export default function Home() {
                     <Image src="/world.png" alt="World Map" fill className="object-contain transform group-hover:scale-105 transition-transform duration-500" />
                   </div>
                 </div>
-                <div className="px-6 py-4 border-t border-[#F2F4F7] flex items-center justify-between text-[#4E9A54] font-semibold text-[13px] bg-white">
+                <div className="px-6 py-4 border-t border-border-subtle flex items-center justify-between text-brand font-semibold text-[13px] bg-surface group-hover:bg-surface-hover transition-colors">
                   Explore Heatmap
                   <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
                 </div>

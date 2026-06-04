@@ -2,7 +2,8 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import { Home, User, Users, Map, BarChart2, Sparkles, Moon, Sun, ChevronDown, Lock } from 'lucide-react';
+import { Home, User, Users, Map, BarChart2, Moon, Sun, ChevronDown, Lock } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 
 export default function Sidebar() {
@@ -16,7 +17,6 @@ export default function Sidebar() {
     { name: 'Teams', href: '/teams', icon: Users },
     { name: 'Heatmap', href: '/heatmap', icon: Map },
     { name: 'Compare', href: '/compare', icon: BarChart2 },
-    { name: 'AI Assistant', href: '#', icon: Sparkles },
   ];
 
   return (
@@ -54,17 +54,30 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`relative flex items-center px-4 py-3 text-[14px] font-medium transition-all rounded-r-xl ${
+              className={`relative flex items-center px-4 py-3 text-[14px] font-medium transition-colors rounded-r-xl ${
                 isActive 
-                  ? 'bg-[#F0F5F1] text-[#3B7E41]' 
+                  ? 'text-[#3B7E41]' 
                   : 'text-text-sec hover:bg-surface-hover hover:text-text-main'
               }`}
             >
               {isActive && (
-                <div className="absolute left-0 top-2 bottom-2 w-[4px] bg-[#3B7E41] rounded-r-md" />
+                <>
+                  <motion.div
+                    layoutId="sidebarActiveBg"
+                    className="absolute inset-0 bg-[#F0F5F1] rounded-r-xl"
+                    initial={false}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                  <motion.div
+                    layoutId="sidebarActiveBorder"
+                    className="absolute left-0 top-2 bottom-2 w-[4px] bg-[#3B7E41] rounded-r-md"
+                    initial={false}
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                </>
               )}
-              <item.icon className={`w-5 h-5 mr-3 ${isActive ? 'text-[#3B7E41]' : 'text-text-muted group-hover:text-text-sec'}`} />
-              {item.name}
+              <item.icon className={`relative z-10 w-5 h-5 mr-3 ${isActive ? 'text-[#3B7E41]' : 'text-text-muted group-hover:text-text-sec'}`} />
+              <span className="relative z-10">{item.name}</span>
             </Link>
           );
         })}

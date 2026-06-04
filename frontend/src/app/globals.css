@@ -21,7 +21,7 @@
   --color-border-subtle: var(--border-subtle);
   --color-border-hover: var(--border-hover);
   
-  --shadow-sm: 0 4px 24px -4px rgba(0, 0, 0, 0.03);
+  --shadow-sm: var(--shadow-sm);
   
   /* Pitch Data Viz Colors */
   --color-pitch-success: var(--pitch-success);
@@ -49,6 +49,8 @@
   --border-subtle: #F2F4F7;
   --border-hover: #E4E7EC;
 
+  --shadow-sm: 0 4px 24px -4px rgba(0, 0, 0, 0.03);
+
   --pitch-success: #4E9A54;
   --pitch-high-xg: #5FAE63;
   --pitch-blocked: #707B72;
@@ -71,8 +73,10 @@
   --text-sec: #A6B0A8;
   --text-muted: #6D756F;
   
-  --border-subtle: #252D28;
-  --border-hover: #354239;
+  --border-subtle: #1C221E;
+  --border-hover: #2A332D;
+
+  --shadow-sm: 0 4px 30px -4px rgba(0, 0, 0, 0.5);
 
   --pitch-success: #5FAE63;
   --pitch-high-xg: #7DDA80;
