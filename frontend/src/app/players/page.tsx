@@ -10,7 +10,7 @@ function SearchableSelect({ options, value, onChange, placeholder }: any) {
   const wrapperRef = useRef(null);
 
   useEffect(() => {
-    function handleClickOutside(event) {
+    function handleClickOutside(event: any) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
         setIsOpen(false);
       }
