@@ -1,0 +1,23 @@
+{
+  "rows": [
+    {"id": "r1", "type": "club", "name": "Real Madrid"},
+    {"id": "r2", "type": "club", "name": "Barcelona"},
+    {"id": "r3", "type": "nation", "name": "Argentina"}
+  ],
+  "cols": [
+    {"id": "c1", "type": "club", "name": "PSG"},
+    {"id": "c2", "type": "club", "name": "Manchester United"},
+    {"id": "c3", "type": "stat", "name": "World Cup Winner"}
+  ],
+  "answers": {
+    "r1-c1": ["Sergio Ramos", "Keylor Navas", "Angel Di Maria", "Kylian Mbappe", "Marco Asensio", "Achraf Hakimi"],
+    "r1-c2": ["Cristiano Ronaldo", "Raphael Varane", "Casemiro", "Angel Di Maria", "Ruud van Nistelrooy", "David Beckham"],
+    "r1-c3": ["Toni Kroos", "Sergio Ramos", "Iker Casillas", "Zinedine Zidane", "Ronaldo Nazario", "Roberto Carlos"],
+    "r2-c1": ["Lionel Messi", "Neymar Jr", "Ousmane Dembele", "Xavi Simons", "Ronaldinho", "Zlatan Ibrahimovic"],
+    "r2-c2": ["Gerard Pique", "Zlatan Ibrahimovic", "Alexis Sanchez", "Memphis Depay", "Henrik Larsson"],
+    "r2-c3": ["Lionel Messi", "Andres Iniesta", "Xavi", "Sergio Busquets", "Carles Puyol", "David Villa", "Thierry Henry"],
+    "r3-c1": ["Lionel Messi", "Angel Di Maria", "Leandro Paredes", "Mauro Icardi"],
+    "r3-c2": ["Angel Di Maria", "Lisandro Martinez", "Alejandro Garnacho", "Juan Sebastian Veron", "Carlos Tevez"],
+    "r3-c3": ["Lionel Messi", "Diego Maradona", "Emiliano Martinez", "Angel Di Maria", "Julian Alvarez", "Enzo Fernandez"]
+  }
+}

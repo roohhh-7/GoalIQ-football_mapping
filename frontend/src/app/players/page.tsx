@@ -26,7 +26,7 @@ function SearchableSelect({ options, value, onChange, placeholder }) {
   return (
     <div ref={wrapperRef} className="relative w-full md:w-[400px]">
       <div 
-        className="relative flex items-center bg-surface border border-border-subtle text-text-sec rounded-xl py-3 px-4 shadow-sm cursor-pointer hover:bg-surface-hover transition-colors"
+        className="relative flex items-center bg-surface border-0 text-text-sec rounded-md py-3 px-4 shadow-md dark:shadow-[0_4px_20px_rgba(0,0,0,0.3)] cursor-pointer hover:bg-surface-hover transition-colors"
         onClick={() => setIsOpen(!isOpen)}
       >
         <Search className="w-5 h-5 text-text-muted mr-3" />
@@ -40,14 +40,14 @@ function SearchableSelect({ options, value, onChange, placeholder }) {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="absolute z-50 mt-2 w-full bg-surface border border-border-subtle rounded-xl shadow-xl max-h-80 overflow-y-auto overflow-hidden"
+            className="absolute z-50 mt-2 w-full bg-surface border-0 rounded-md shadow-xl dark:shadow-[0_10px_40px_rgba(0,0,0,0.5)] max-h-80 overflow-y-auto overflow-hidden"
           >
             <div className="sticky top-0 bg-surface p-2 border-b border-border-subtle">
               <input
                 type="text"
                 autoFocus
                 placeholder="Type to search..."
-                className="w-full bg-surface-hover text-text-main px-3 py-2 rounded-lg outline-none border border-border-subtle focus:border-border-hover"
+                className="w-full bg-surface-hover text-text-main px-3 py-2 rounded-md outline-none border-0 shadow-inner dark:shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]"
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
                 onClick={e => e.stopPropagation()}
@@ -156,7 +156,7 @@ export default function Players() {
       <header className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
         <div>
           <h1 className="text-3xl font-black text-text-main tracking-tight mb-2">Player Intelligence</h1>
-          <p className="text-text-sec font-medium">Analyze individual finishing performance across the World Cup.</p>
+          <p className="font-cabin text-text-sec font-medium">Analyze individual finishing performance across the World Cup.</p>
         </div>
         <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
           <SearchableSelect options={players} value={playerSearch} onChange={setPlayerSearch} placeholder="Search player..." />
@@ -171,8 +171,8 @@ export default function Players() {
 
       {/* Metrics Grid */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-surface border border-border-subtle rounded-2xl p-6 shadow-sm flex items-center gap-5">
-          <div className="p-4 bg-surface-hover rounded-xl border border-border-subtle">
+        <div className="bg-surface border border-border-subtle rounded-md p-6 shadow-sm flex items-center gap-5">
+          <div className="p-4 bg-surface-hover rounded-md border border-border-subtle">
             <Crosshair className="w-8 h-8 text-brand" />
           </div>
           <div>
@@ -181,8 +181,8 @@ export default function Players() {
           </div>
         </div>
         
-        <div className="bg-surface border border-border-subtle rounded-2xl p-6 shadow-sm flex items-center gap-5">
-          <div className="p-4 bg-surface-hover rounded-xl border border-border-subtle">
+        <div className="bg-surface border border-border-subtle rounded-md p-6 shadow-sm flex items-center gap-5">
+          <div className="p-4 bg-surface-hover rounded-md border border-border-subtle">
             <BarChart3 className="w-8 h-8 text-brand" />
           </div>
           <div>
@@ -191,8 +191,8 @@ export default function Players() {
           </div>
         </div>
         
-        <div className="bg-surface border border-border-subtle rounded-2xl p-6 shadow-sm flex items-center gap-5">
-          <div className="p-4 bg-surface-hover rounded-xl border border-border-subtle">
+        <div className="bg-surface border border-border-subtle rounded-md p-6 shadow-sm flex items-center gap-5">
+          <div className="p-4 bg-surface-hover rounded-md border border-border-subtle">
             <Goal className="w-8 h-8 text-brand" />
           </div>
           <div>
@@ -222,7 +222,7 @@ export default function Players() {
         <div className="space-y-4">
           <h2 className="text-xl font-bold text-text-main">Analytics</h2>
           
-          <div className="bg-surface border border-border-subtle rounded-2xl p-6 shadow-sm">
+          <div className="bg-surface border border-border-subtle rounded-md p-6 shadow-sm">
             <h3 className="text-xs font-bold text-text-muted mb-6 uppercase tracking-widest border-b border-border-subtle pb-3">Body Part</h3>
             <div className="space-y-5">
               {['Right Foot', 'Left Foot', 'Head', 'Other'].map(part => {
@@ -249,7 +249,7 @@ export default function Players() {
                 .map(pattern => ({ pattern, count: filteredShots.filter(s => s.play_pattern === pattern).length }))
                 .sort((a, b) => b.count - a.count).slice(0, 4)
                 .map(({ pattern, count }) => (
-                  <div key={pattern} className="bg-surface-hover border border-border-subtle px-3 py-1.5 rounded-lg flex items-center gap-2">
+                  <div key={pattern} className="bg-surface-hover border border-border-subtle px-3 py-1.5 rounded-md flex items-center gap-2">
                     <span className="text-text-sec text-xs font-medium">{pattern}</span>
                     <span className="bg-surface text-text-main text-[10px] px-1.5 font-bold rounded-md border border-border-subtle">{count}</span>
                   </div>

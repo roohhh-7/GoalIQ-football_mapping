@@ -1,0 +1,137 @@
+[
+  {
+    "id": 1,
+    "name": "Lionel Messi",
+    "country": "Argentina",
+    "careerGoals": 838,
+    "worldCupGoals": 13,
+    "internationalGoals": 109,
+    "imageUrl": "/players/lionel_messi.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Cristiano Ronaldo",
+    "country": "Portugal",
+    "careerGoals": 895,
+    "worldCupGoals": 8,
+    "internationalGoals": 130,
+    "imageUrl": "/players/cristiano_ronaldo.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Pele",
+    "country": "Brazil",
+    "careerGoals": 762,
+    "worldCupGoals": 12,
+    "internationalGoals": 77,
+    "imageUrl": "/players/pele.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Diego Maradona",
+    "country": "Argentina",
+    "careerGoals": 345,
+    "worldCupGoals": 8,
+    "internationalGoals": 34,
+    "imageUrl": "/players/diego_maradona.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Miroslav Klose",
+    "country": "Germany",
+    "careerGoals": 362,
+    "worldCupGoals": 16,
+    "internationalGoals": 71,
+    "imageUrl": "/players/miroslav_klose.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Ronaldo Nazario",
+    "country": "Brazil",
+    "careerGoals": 414,
+    "worldCupGoals": 15,
+    "internationalGoals": 62,
+    "imageUrl": "/players/ronaldo_nazario.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Kylian Mbappe",
+    "country": "France",
+    "careerGoals": 332,
+    "worldCupGoals": 12,
+    "internationalGoals": 47,
+    "imageUrl": "/players/kylian_mbappe.jpg"
+  },
+  {
+    "id": 8,
+    "name": "Neymar Jr",
+    "country": "Brazil",
+    "careerGoals": 439,
+    "worldCupGoals": 8,
+    "internationalGoals": 79,
+    "imageUrl": "/players/neymar_jr.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Wayne Rooney",
+    "country": "England",
+    "careerGoals": 366,
+    "worldCupGoals": 1,
+    "internationalGoals": 53,
+    "imageUrl": "/players/wayne_rooney.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Thierry Henry",
+    "country": "France",
+    "careerGoals": 411,
+    "worldCupGoals": 6,
+    "internationalGoals": 51,
+    "imageUrl": "/players/thierry_henry.jpg"
+  },
+  {
+    "id": 11,
+    "name": "Thomas Muller",
+    "country": "Germany",
+    "careerGoals": 340,
+    "worldCupGoals": 10,
+    "internationalGoals": 45,
+    "imageUrl": "/players/thomas_muller.jpg"
+  },
+  {
+    "id": 12,
+    "name": "Gary Lineker",
+    "country": "England",
+    "careerGoals": 330,
+    "worldCupGoals": 10,
+    "internationalGoals": 48,
+    "imageUrl": "/players/gary_lineker.jpg"
+  },
+  {
+    "id": 13,
+    "name": "Gabriel Batistuta",
+    "country": "Argentina",
+    "careerGoals": 300,
+    "worldCupGoals": 10,
+    "internationalGoals": 56,
+    "imageUrl": "/players/gabriel_batistuta.jpg"
+  },
+  {
+    "id": 14,
+    "name": "Just Fontaine",
+    "country": "France",
+    "careerGoals": 258,
+    "worldCupGoals": 13,
+    "internationalGoals": 30,
+    "imageUrl": "/players/just_fontaine.jpg"
+  },
+  {
+    "id": 15,
+    "name": "Harry Kane",
+    "country": "England",
+    "careerGoals": 350,
+    "worldCupGoals": 8,
+    "internationalGoals": 62,
+    "imageUrl": "/players/harry_kane.jpg"
+  }
+]

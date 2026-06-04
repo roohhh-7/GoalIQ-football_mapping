@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useTheme } from 'next-themes';
-import { Home, User, Users, Map, BarChart2, Moon, Sun, ChevronDown, Lock } from 'lucide-react';
+import { Home, User, Users, Map, BarChart2, Moon, Sun, ChevronDown, Lock, Gamepad2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -12,6 +12,11 @@ export default function Sidebar() {
   const { theme, setTheme } = useTheme();
   const { isLoggedIn, login, logout } = useAuth();
   const [mounted, setMounted] = useState(false);
+  const [activePath, setActivePath] = useState(pathname);
+
+  useEffect(() => {
+    setActivePath(pathname);
+  }, [pathname]);
 
   useEffect(() => {
     setMounted(true);
@@ -23,6 +28,7 @@ export default function Sidebar() {
     { name: 'Teams', href: '/teams', icon: Users },
     { name: 'Heatmap', href: '/heatmap', icon: Map },
     { name: 'Compare', href: '/compare', icon: BarChart2 },
+    { name: 'Gamehub', href: '/games', icon: Gamepad2 },
   ];
 
   return (
@@ -37,7 +43,7 @@ export default function Sidebar() {
 
       <nav className="flex-1 px-4 py-8 space-y-2">
         {navItems.map((item) => {
-          const isActive = pathname === item.href || (item.href !== '/' && pathname?.startsWith(item.href));
+          const isActive = activePath === item.href || (item.href !== '/' && activePath?.startsWith(item.href));
           const isLocked = !isLoggedIn && item.name !== 'Home';
           
           if (isLocked) {
@@ -60,6 +66,7 @@ export default function Sidebar() {
             <Link
               key={item.name}
               href={item.href}
+              onClick={() => setActivePath(item.href)}
               className={`relative flex items-center px-4 py-3 text-[14px] font-medium transition-colors rounded-xl ${
                 isActive 
                   ? 'text-brand' 

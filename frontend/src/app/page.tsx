@@ -74,7 +74,7 @@ export default function Home() {
 
   const renderStatsCard = () => (
     <div className="w-full max-w-6xl mx-auto">
-      <div className="bg-surface border border-border-subtle rounded-2xl p-6 shadow-sm mb-4">
+      <div className="bg-surface border border-border-subtle rounded-md p-6 shadow-sm mb-4">
         <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border-subtle">
           <div className="flex items-center justify-center gap-5 px-4">
             <Target className="w-7 h-7 text-brand" strokeWidth={2} />
@@ -142,13 +142,13 @@ export default function Home() {
               <h1 className="text-6xl lg:text-[5rem] font-semibold tracking-tight text-text-main leading-[1.05]">
                 Understand<br />Every Shot.
               </h1>
-              <p className="text-lg text-text-sec max-w-md leading-relaxed font-normal">
+              <p className="font-cabin text-lg text-text-sec max-w-md leading-relaxed font-normal">
                 Explore player performance, team tactics and shot quality using historical World Cup data.
               </p>
             </div>
 
             {!isLoggedIn ? (
-              <div className="bg-surface-hover border border-border-subtle rounded-xl p-8 flex flex-col items-center text-center max-w-md">
+              <div className="bg-surface-hover border border-border-subtle rounded-md p-8 flex flex-col items-center text-center max-w-md">
                 <div className="w-10 h-10 rounded-full border border-border-subtle bg-surface flex items-center justify-center mb-4">
                   <Lock className="w-4 h-4 text-text-muted" strokeWidth={2} />
                 </div>
@@ -168,10 +168,10 @@ export default function Home() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setIsSearchFocused(true)}
                   placeholder="Search player or team..."
-                  className="w-full pl-14 pr-14 py-3.5 bg-surface border border-border-subtle rounded-[14px] text-[14px] font-normal text-text-main placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent shadow-sm relative z-0"
+                  className="w-full pl-14 pr-14 py-3.5 bg-surface border border-border-subtle rounded-md text-[14px] font-normal text-text-main placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent shadow-sm relative z-0"
                 />
                 <button type="submit" className="absolute inset-y-0 right-4 flex items-center z-10">
-                  <div className="bg-surface-hover border border-border-hover rounded-lg text-text-sec text-[13px] font-normal px-2.5 py-0.5 hover:bg-surface transition-colors cursor-pointer">
+                  <div className="bg-surface-hover border border-border-hover rounded-md text-text-sec text-[13px] font-normal px-2.5 py-0.5 hover:bg-surface transition-colors cursor-pointer">
                     ↵
                   </div>
                 </button>
@@ -182,7 +182,7 @@ export default function Home() {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="absolute z-50 mt-2 w-full bg-surface border border-border-subtle rounded-xl shadow-xl max-h-64 overflow-y-auto overflow-hidden"
+                      className="absolute z-50 mt-2 w-full bg-surface border border-border-subtle rounded-md shadow-xl max-h-64 overflow-y-auto overflow-hidden"
                     >
                       {filteredSuggestions.length === 0 ? (
                         <div className="p-4 text-text-muted text-center text-sm">No matches found</div>
@@ -215,7 +215,7 @@ export default function Home() {
               alt="3D Pitch Visualization" 
               width={800} 
               height={600} 
-              className="object-contain w-full max-w-3xl transition-transform duration-700 ease-out hover:scale-[1.03]"
+              className="object-contain w-full max-w-3xl transition-transform duration-700 ease-out hover:scale-[1.03] dark:drop-shadow-[15px_15px_30px_rgba(95,174,99,0.25)]"
               priority
             />
           </div>
@@ -224,10 +224,17 @@ export default function Home() {
         {isLoggedIn && (
           <div className="w-full space-y-6 mb-16 animate-in fade-in slide-in-from-bottom-8 duration-700">
             {/* Featured Tournament */}
-            <div className="bg-surface border border-border-subtle rounded-2xl p-6 shadow-sm flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="bg-surface border border-border-subtle rounded-md p-6 shadow-sm flex flex-col lg:flex-row items-center justify-between gap-6">
               <div className="flex items-center gap-5">
-                <div className="w-[72px] h-[72px] bg-surface-hover rounded-xl flex items-center justify-center p-2 border border-border-subtle">
-                  <Image src="/trophy.png" alt="Trophy" width={44} height={44} className="object-contain" />
+                <div className="w-[72px] h-[72px] bg-brand-soft rounded-md flex items-center justify-center p-2 border border-border-subtle relative overflow-hidden group cursor-default">
+                  <div className="absolute inset-0 bg-brand/20 blur-xl rounded-md group-hover:bg-brand/30 transition-colors duration-700" />
+                  <Image 
+                    src="/2022_FIFA_World_Cup.svg.png" 
+                    alt="World Cup 2022" 
+                    width={40} 
+                    height={40} 
+                    className="relative z-10 transform group-hover:scale-110 transition-all duration-500"
+                  />
                 </div>
                 <div>
                   <div className="text-[10px] font-semibold tracking-widest text-brand uppercase mb-1">Featured Tournament</div>
@@ -260,7 +267,7 @@ export default function Home() {
                 </div>
               </div>
               
-              <Link href="/heatmap?year=2022" className="flex justify-center items-center gap-2 bg-brand hover:bg-brand-hover text-white px-7 py-3.5 rounded-xl font-semibold text-[14px] transition-colors shadow-sm border border-brand w-full lg:w-auto">
+              <Link href="/heatmap?year=2022" className="flex justify-center items-center gap-2 bg-brand hover:bg-brand-hover text-white px-7 py-3.5 rounded-md font-semibold text-[14px] transition-colors shadow-sm border border-brand w-full lg:w-auto">
                 Explore
                 <ArrowRight className="w-4 h-4" strokeWidth={2.5} />
               </Link>
@@ -269,22 +276,22 @@ export default function Home() {
             {/* Grid of Features */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* Player Intelligence */}
-              <Link href="/players" className="bg-surface border border-border-subtle rounded-[20px] shadow-sm flex flex-col group cursor-pointer hover:shadow-[0_12px_30px_-4px_rgba(78,154,84,0.15)] transition-all duration-300 relative overflow-hidden">
+              <Link href="/players" className="bg-surface border border-border-subtle rounded-md shadow-sm flex flex-col group cursor-pointer hover:shadow-[0_12px_30px_-4px_rgba(78,154,84,0.15)] transition-all duration-300 relative overflow-hidden">
                 <div className="p-6 pb-6 flex-1 relative">
                   <div className="w-10 h-10 rounded-full bg-brand-soft flex items-center justify-center mb-6">
                     <User className="w-5 h-5 text-brand" strokeWidth={2} />
                   </div>
                   
-                  <div className="relative z-10 pr-[110px]">
+                  <div className="relative z-10">
                     <h3 className="text-[17px] font-semibold text-text-main leading-tight mb-3">Player<br />Intelligence</h3>
-                    <p className="text-[12px] text-text-sec leading-relaxed font-normal">
+                    <p className="font-cabin text-[13px] text-text-sec leading-relaxed font-normal max-w-[85%]">
                       Analyze individual performance with shot maps, xG, finishing trends and more.
                     </p>
                   </div>
 
-                  <div className="absolute top-12 right-6 w-[120px] h-[120px]">
-                    <Image src="/player.png" alt="Player Maps" fill className="object-contain transform group-hover:scale-105 transition-transform duration-500" />
-                  </div>
+                  {/* Watermark & Glow */}
+                  <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-brand/20 dark:bg-brand/20 blur-2xl rounded-full group-hover:scale-[1.5] transition-transform duration-700 ease-out" />
+                  <User className="absolute -bottom-4 -right-4 w-32 h-32 text-brand opacity-[0.12] dark:opacity-[0.08] -rotate-12 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-700 ease-out" strokeWidth={1} />
                 </div>
                 <div className="px-6 py-4 border-t border-border-subtle flex items-center justify-between text-brand font-semibold text-[13px] bg-surface group-hover:bg-surface-hover transition-colors">
                   Explore Players
@@ -293,22 +300,22 @@ export default function Home() {
               </Link>
 
               {/* Team Intelligence */}
-              <Link href="/teams" className="bg-surface border border-border-subtle rounded-[20px] shadow-sm flex flex-col group cursor-pointer hover:shadow-[0_12px_30px_-4px_rgba(78,154,84,0.15)] transition-all duration-300 relative overflow-hidden">
+              <Link href="/teams" className="bg-surface border border-border-subtle rounded-md shadow-sm flex flex-col group cursor-pointer hover:shadow-[0_12px_30px_-4px_rgba(78,154,84,0.15)] transition-all duration-300 relative overflow-hidden">
                 <div className="p-6 pb-6 flex-1 relative">
                   <div className="w-10 h-10 rounded-full bg-brand-soft flex items-center justify-center mb-6">
                     <Users className="w-5 h-5 text-brand" strokeWidth={2} />
                   </div>
                   
-                  <div className="relative z-10 pr-[110px]">
+                  <div className="relative z-10">
                     <h3 className="text-[17px] font-semibold text-text-main leading-tight mb-3">Team<br />Intelligence</h3>
-                    <p className="text-[12px] text-text-sec leading-relaxed font-normal">
+                    <p className="font-cabin text-[13px] text-text-sec leading-relaxed font-normal max-w-[85%]">
                       Dive into team shot maps, tactical patterns, xG performance and strategies.
                     </p>
                   </div>
 
-                  <div className="absolute top-12 right-6 w-[120px] h-[120px]">
-                    <Image src="/team.png" alt="Team Maps" fill className="object-contain transform group-hover:scale-105 transition-transform duration-500" />
-                  </div>
+                  {/* Watermark & Glow */}
+                  <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-brand/20 dark:bg-brand/20 blur-2xl rounded-full group-hover:scale-[1.5] transition-transform duration-700 ease-out" />
+                  <Users className="absolute -bottom-4 -right-4 w-32 h-32 text-brand opacity-[0.12] dark:opacity-[0.08] -rotate-12 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-700 ease-out" strokeWidth={1} />
                 </div>
                 <div className="px-6 py-4 border-t border-border-subtle flex items-center justify-between text-brand font-semibold text-[13px] bg-surface group-hover:bg-surface-hover transition-colors">
                   Explore Teams
@@ -317,22 +324,22 @@ export default function Home() {
               </Link>
 
               {/* Global Heatmap */}
-              <Link href="/heatmap" className="bg-surface border border-border-subtle rounded-[20px] shadow-sm flex flex-col group cursor-pointer hover:shadow-[0_12px_30px_-4px_rgba(78,154,84,0.15)] transition-all duration-300 relative overflow-hidden">
+              <Link href="/heatmap" className="bg-surface border border-border-subtle rounded-md shadow-sm flex flex-col group cursor-pointer hover:shadow-[0_12px_30px_-4px_rgba(78,154,84,0.15)] transition-all duration-300 relative overflow-hidden">
                 <div className="p-6 pb-6 flex-1 relative">
                   <div className="w-10 h-10 rounded-full bg-brand-soft flex items-center justify-center mb-6">
                     <Globe className="w-5 h-5 text-brand" strokeWidth={2} />
                   </div>
                   
-                  <div className="relative z-10 pr-[120px]">
+                  <div className="relative z-10">
                     <h3 className="text-[17px] font-semibold text-text-main leading-tight mb-3">Global<br />Heatmap</h3>
-                    <p className="text-[12px] text-text-sec leading-relaxed font-normal">
+                    <p className="font-cabin text-[13px] text-text-sec leading-relaxed font-normal max-w-[85%]">
                       Explore every shot from every match. Visualize the World Cup like never before.
                     </p>
                   </div>
 
-                  <div className="absolute top-14 right-4 w-[160px] h-[100px]">
-                    <Image src="/world.png" alt="World Map" fill className="object-contain transform group-hover:scale-105 transition-transform duration-500" />
-                  </div>
+                  {/* Watermark & Glow */}
+                  <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-brand/20 dark:bg-brand/20 blur-2xl rounded-full group-hover:scale-[1.5] transition-transform duration-700 ease-out" />
+                  <Globe className="absolute -bottom-4 -right-4 w-32 h-32 text-brand opacity-[0.12] dark:opacity-[0.08] -rotate-12 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-700 ease-out" strokeWidth={1} />
                 </div>
                 <div className="px-6 py-4 border-t border-border-subtle flex items-center justify-between text-brand font-semibold text-[13px] bg-surface group-hover:bg-surface-hover transition-colors">
                   Explore Heatmap

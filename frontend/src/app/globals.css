@@ -4,6 +4,7 @@
 
 @theme {
   --font-sans: var(--font-heming), ui-sans-serif, system-ui, sans-serif;
+  --font-cabin: var(--font-cabin), ui-sans-serif, system-ui, sans-serif;
   --color-app-bg: var(--bg-app);
   --color-sidebar-bg: var(--bg-sidebar);
   --color-surface: var(--bg-surface);

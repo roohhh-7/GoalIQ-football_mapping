@@ -18,6 +18,30 @@ function Goal3D({ x, isLeft }: { x: number, isLeft: boolean }) {
   
   const color = "#ffffff";
   const netColor = "#8B928D";
+  const backX = isLeft ? x - 2 : x + 2;
+
+  const netVertices = useMemo(() => {
+    return new Float32Array([
+      // Back face (2 triangles)
+      x, goalHeight, yStart,
+      backX, 0, yStart,
+      x, goalHeight, yEnd,
+
+      backX, 0, yStart,
+      backX, 0, yEnd,
+      x, goalHeight, yEnd,
+
+      // Left face (1 triangle)
+      x, goalHeight, yStart,
+      x, 0, yStart,
+      backX, 0, yStart,
+
+      // Right face (1 triangle)
+      x, goalHeight, yEnd,
+      backX, 0, yEnd,
+      x, 0, yEnd,
+    ]);
+  }, [x, backX, goalHeight, yStart, yEnd]);
 
   return (
     <group>
@@ -36,24 +60,38 @@ function Goal3D({ x, isLeft }: { x: number, isLeft: boolean }) {
         <cylinderGeometry args={[postRadius, postRadius, goalWidth + postRadius * 2, 16]} />
         <meshStandardMaterial color={color} />
       </mesh>
-      {/* Net lines */}
+
+      {/* Solid translucent net */}
+      <mesh>
+        <bufferGeometry>
+          <bufferAttribute
+            attach="attributes-position"
+            count={12}
+            array={netVertices}
+            itemSize={3}
+          />
+        </bufferGeometry>
+        <meshStandardMaterial color="#ffffff" transparent opacity={0.15} depthWrite={false} side={THREE.DoubleSide} />
+      </mesh>
+
+      {/* Net wireframe outline */}
       <Line points={[
         [x, goalHeight, yStart],
-        [isLeft ? x - 2 : x + 2, 0, yStart]
+        [backX, 0, yStart]
       ]} color={netColor} opacity={0.5} transparent lineWidth={1} />
       <Line points={[
         [x, goalHeight, yEnd],
-        [isLeft ? x - 2 : x + 2, 0, yEnd]
+        [backX, 0, yEnd]
       ]} color={netColor} opacity={0.5} transparent lineWidth={1} />
       <Line points={[
-        [isLeft ? x - 2 : x + 2, 0, yStart],
-        [isLeft ? x - 2 : x + 2, 0, yEnd]
+        [backX, 0, yStart],
+        [backX, 0, yEnd]
       ]} color={netColor} opacity={0.5} transparent lineWidth={1} />
       <Line points={[
         [x, goalHeight, yStart],
         [x, goalHeight, yEnd],
-        [isLeft ? x - 2 : x + 2, 0, yEnd],
-        [isLeft ? x - 2 : x + 2, 0, yStart],
+        [backX, 0, yEnd],
+        [backX, 0, yStart],
         [x, goalHeight, yStart]
       ]} color={netColor} opacity={0.2} transparent lineWidth={0.5} />
     </group>
