@@ -4,7 +4,7 @@ import { Search, ChevronDown, Users, BarChart3, Goal, Info } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion';
 import Pitch from '@/components/Pitch';
 
-function SearchableSelect({ options, value, onChange, placeholder }) {
+function SearchableSelect({ options, value, onChange, placeholder }: any) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const wrapperRef = useRef(null);
