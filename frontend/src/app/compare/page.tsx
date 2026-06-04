@@ -113,9 +113,9 @@ export default function Compare() {
       });
   }, []);
 
-  const playersList = useMemo(() => Array.from(new Set(shots.map(s => s.player))).sort(), [shots]);
-  const teamsList = useMemo(() => Array.from(new Set(shots.map(s => s.team))).sort(), [shots]);
-  const seasonsList = useMemo(() => ['All World Cups', ...Array.from(new Set(shots.map(s => s.season.toString()))).sort().reverse()], [shots]);
+  const playersList = useMemo(() => Array.from(new Set<string>(shots.map(s => s.player))).sort(), [shots]);
+  const teamsList = useMemo(() => Array.from(new Set<string>(shots.map(s => s.team))).sort(), [shots]);
+  const seasonsList = useMemo(() => ['All World Cups', ...Array.from(new Set<string>(shots.map(s => s.season.toString()))).sort().reverse()], [shots]);
 
   const entityA = mode === 'players' ? playerA : teamA;
   const entityB = mode === 'players' ? playerB : teamB;

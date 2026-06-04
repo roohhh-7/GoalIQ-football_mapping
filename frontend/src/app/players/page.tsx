@@ -78,7 +78,7 @@ function SearchableSelect({ options, value, onChange, placeholder }: any) {
 }
 
 export default function Players() {
-  const [shots, setShots] = useState([]);
+  const [shots, setShots] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [playerSearch, setPlayerSearch] = useState('Lionel Andrés Messi Cuccittini');
   const [seasonSearch, setSeasonSearch] = useState('All World Cups');
@@ -96,7 +96,7 @@ export default function Players() {
         if (q) {
           const lowerQ = q.toLowerCase();
           // Find first player that includes the search term
-          const counts = {};
+          const counts: Record<string, number> = {};
           data.forEach(s => counts[s.player] = (counts[s.player] || 0) + 1);
           const validPlayers = Object.entries(counts).filter(([_, count]) => count >= 3).map(([name]) => name);
           const match = validPlayers.find(p => p.toLowerCase().includes(lowerQ));
@@ -111,7 +111,7 @@ export default function Players() {
 
   const players = useMemo(() => {
     if (!shots.length) return [];
-    const counts = {};
+    const counts: Record<string, number> = {};
     shots.forEach(s => counts[s.player] = (counts[s.player] || 0) + 1);
     return Object.entries(counts).filter(([_, count]) => count >= 3).map(([name]) => name).sort();
   }, [shots]);
@@ -119,7 +119,7 @@ export default function Players() {
   const availableSeasons = useMemo(() => {
     if (!shots.length) return [];
     const playerShots = shots.filter(s => s.player === playerSearch);
-    return ['All World Cups', ...Array.from(new Set(playerShots.map(s => s.season.toString()))).sort().reverse()];
+    return ['All World Cups', ...Array.from(new Set<string>(playerShots.map(s => s.season.toString()))).sort().reverse()];
   }, [shots, playerSearch]);
 
   useEffect(() => {
@@ -245,7 +245,7 @@ export default function Players() {
             
             <h3 className="text-xs font-bold text-text-muted mt-8 mb-4 uppercase tracking-widest border-b border-border-subtle pb-3">Contexts</h3>
             <div className="flex flex-wrap gap-2">
-              {Array.from(new Set(filteredShots.map(s => s.play_pattern)))
+              {Array.from(new Set<string>(filteredShots.map(s => s.play_pattern)))
                 .map(pattern => ({ pattern, count: filteredShots.filter(s => s.play_pattern === pattern).length }))
                 .sort((a, b) => b.count - a.count).slice(0, 4)
                 .map(({ pattern, count }) => (

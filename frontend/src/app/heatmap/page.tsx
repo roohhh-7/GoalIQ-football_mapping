@@ -105,7 +105,7 @@ export default function Heatmap() {
 
   const availableSeasons = useMemo(() => {
     if (!shots.length) return [];
-    return ['All World Cups', ...Array.from(new Set(shots.map(s => s.season.toString()))).sort().reverse()];
+    return ['All World Cups', ...Array.from(new Set<string>(shots.map(s => s.season.toString()))).sort().reverse()];
   }, [shots]);
 
   const filteredShots = useMemo(() => {

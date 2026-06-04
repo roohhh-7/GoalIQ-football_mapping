@@ -78,7 +78,7 @@ function SearchableSelect({ options, value, onChange, placeholder }: any) {
 }
 
 export default function Teams() {
-  const [shots, setShots] = useState([]);
+  const [shots, setShots] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [teamSearch, setTeamSearch] = useState('Argentina');
   const [seasonSearch, setSeasonSearch] = useState('All World Cups');
@@ -95,7 +95,7 @@ export default function Teams() {
         const q = params.get('q');
         if (q) {
           const lowerQ = q.toLowerCase();
-          const teamsList = Array.from(new Set(data.map(s => s.team)));
+          const teamsList = Array.from(new Set<string>(data.map(s => s.team)));
           const match = teamsList.find(t => t.toLowerCase().includes(lowerQ));
           if (match) setTeamSearch(match);
         }
@@ -108,13 +108,13 @@ export default function Teams() {
 
   const teams = useMemo(() => {
     if (!shots.length) return [];
-    return Array.from(new Set(shots.map(s => s.team))).sort();
+    return Array.from(new Set<string>(shots.map(s => s.team))).sort();
   }, [shots]);
 
   const availableSeasons = useMemo(() => {
     if (!shots.length) return [];
     const teamShots = shots.filter(s => s.team === teamSearch);
-    return ['All World Cups', ...Array.from(new Set(teamShots.map(s => s.season.toString()))).sort().reverse()];
+    return ['All World Cups', ...Array.from(new Set<string>(teamShots.map(s => s.season.toString()))).sort().reverse()];
   }, [shots, teamSearch]);
 
   useEffect(() => {
@@ -240,7 +240,7 @@ export default function Teams() {
             
             <h3 className="text-xs font-bold text-text-muted mt-8 mb-4 uppercase tracking-widest border-b border-border-subtle pb-3">Contexts</h3>
             <div className="flex flex-wrap gap-2">
-              {Array.from(new Set(filteredShots.map(s => s.play_pattern)))
+              {Array.from(new Set<string>(filteredShots.map(s => s.play_pattern)))
                 .map(pattern => ({ pattern, count: filteredShots.filter(s => s.play_pattern === pattern).length }))
                 .sort((a, b) => b.count - a.count).slice(0, 4)
                 .map(({ pattern, count }) => (

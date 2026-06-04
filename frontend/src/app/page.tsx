@@ -22,8 +22,8 @@ export default function Home() {
       fetch('/shots.json')
         .then(res => res.json())
         .then((data: any[]) => {
-          const uniqueTeams = Array.from(new Set(data.map(s => s.team)));
-          const uniquePlayers = Array.from(new Set(data.map(s => s.player)));
+          const uniqueTeams = Array.from(new Set<string>(data.map(s => s.team)));
+          const uniquePlayers = Array.from(new Set<string>(data.map(s => s.player)));
           setTeamsList(uniqueTeams as string[]);
           setPlayersList(uniquePlayers as string[]);
         })

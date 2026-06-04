@@ -64,6 +64,7 @@ function Goal3D({ x, isLeft }: { x: number, isLeft: boolean }) {
       {/* Solid translucent net */}
       <mesh>
         <bufferGeometry>
+          {/* @ts-ignore */}
           <bufferAttribute
             attach="attributes-position"
             count={12}
@@ -257,7 +258,7 @@ function Tooltip({ shot }) {
 }
 
 export default function Pitch({ shots }) {
-  const [hoveredShot, setHoveredShot] = useState(null);
+  const [hoveredShot, setHoveredShot] = useState<any>(null);
   const [isMaximized, setIsMaximized] = useState(false);
   const [viewMode, setViewMode] = useState('3d');
   
