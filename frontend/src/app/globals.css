@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: var(--font-heming), ui-sans-serif, system-ui, sans-serif;
+  --color-app-bg: var(--bg-app);
+  --color-sidebar-bg: var(--bg-sidebar);
+  --color-surface: var(--bg-surface);
+  --color-surface-hover: var(--bg-surface-hover);
+  
+  --color-brand: var(--color-brand);
+  --color-brand-hover: var(--color-brand-hover);
+  --color-brand-active: var(--color-brand-active);
+  --color-brand-soft: var(--color-brand-soft);
+  
+  --color-text-main: var(--text-main);
+  --color-text-sec: var(--text-sec);
+  --color-text-muted: var(--text-muted);
+  
+  --color-border-subtle: var(--border-subtle);
+  --color-border-hover: var(--border-hover);
+  
+  --shadow-sm: 0 4px 24px -4px rgba(0, 0, 0, 0.03);
+  
+  /* Pitch Data Viz Colors */
+  --color-pitch-success: var(--pitch-success);
+  --color-pitch-high-xg: var(--pitch-high-xg);
+  --color-pitch-blocked: var(--pitch-blocked);
+  --color-pitch-missed: var(--pitch-missed);
+}
+
+:root {
+  /* LIGHT MODE */
+  --bg-app: #F8F9F7;
+  --bg-sidebar: #FFFFFF;
+  --bg-surface: #FFFFFF;
+  --bg-surface-hover: #F1F4F1;
+  
+  --color-brand: #4E9A54;
+  --color-brand-hover: #5FAE63;
+  --color-brand-active: #3F8245;
+  --color-brand-soft: #E8F3E9;
+  
+  --text-main: #101312;
+  --text-sec: #5F6661;
+  --text-muted: #8B928D;
+  
+  --border-subtle: #F2F4F7;
+  --border-hover: #E4E7EC;
+
+  --pitch-success: #4E9A54;
+  --pitch-high-xg: #5FAE63;
+  --pitch-blocked: #707B72;
+  --pitch-missed: #D6D8D7;
+}
+
+.dark {
+  /* DARK MODE */
+  --bg-app: #0B0F0C;
+  --bg-sidebar: #101512;
+  --bg-surface: #141A16;
+  --bg-surface-hover: #1A211D;
+  
+  --color-brand: #5FAE63;
+  --color-brand-hover: #6FCB73;
+  --color-brand-active: #7DDA80;
+  --color-brand-soft: #3D7040;
+  
+  --text-main: #F8FAF8;
+  --text-sec: #A6B0A8;
+  --text-muted: #6D756F;
+  
+  --border-subtle: #252D28;
+  --border-hover: #354239;
+
+  --pitch-success: #5FAE63;
+  --pitch-high-xg: #7DDA80;
+  --pitch-blocked: #707B72;
+  --pitch-missed: #D6D8D7;
+}
